@@ -2,14 +2,20 @@
 
 ## New Feature Request
 
-Add a **tagging system** to blog posts:
+Add a **likes feature** to blog posts:
 
-- Posts can have multiple tags (list of strings)
-- Add ability to filter posts by tag
-- Tags should be optional
+### Requirements:
+- Users should be able to like a post
+- Each post should track total like count
+- Implement `POST /posts/{post_id}/like` endpoint
+- Implement `GET /posts/{post_id}/likes` endpoint (returns like count)
+- Optional: prevent duplicate likes from same user (by name)
 
-**Requirements:**
-- Keep changes minimal
-- Don't create separate tag management endpoints
-- Don't add a database
+### Implementation Hints:
+- Add a `Like` model to models.py
+- Add likes storage to storage.py
+- Use good prompting strategies learned in class
 
+### Constraints:
+- Keep changes minimal and follow existing code patterns
+- Don't over-engineer the solution
