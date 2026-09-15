@@ -1,4 +1,4 @@
 authors = {}
 posts = {}
 comments = {}
-
+likes = {}

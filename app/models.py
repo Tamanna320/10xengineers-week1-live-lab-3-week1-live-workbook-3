@@ -41,3 +41,12 @@ class CommentCreate(BaseModel):
     author_name: str
     content: str
 
+class Like(BaseModel):
+    id: str
+    post_id: str
+    user_name: str
+    created_at: datetime
+
+class LikeCreate(BaseModel):
+    user_name: str
+

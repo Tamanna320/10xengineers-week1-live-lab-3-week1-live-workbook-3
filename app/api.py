@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from typing import List, Optional
-from app.models import Author, AuthorCreate, Post, PostCreate, Comment, CommentCreate
-from app.storage import authors, posts, comments
+from app.models import Author, AuthorCreate, Post, PostCreate, Comment, Like, LikeCreate
+from app.storage import authors, posts, comments, likes
 from app.utils import gen_id, now
 
 app = FastAPI()
@@ -91,6 +91,37 @@ def create_comment(post_id: str, data: CommentCreate):
     )
     comments[c.id] = c
     return c
+
+@app.post("/posts/{post_id}/like")
+def like_post(post_id: str, data: LikeCreate):
+    if post_id not in posts:
+        raise HTTPException(404)
+
+    like = Like(
+        id=gen_id(),
+        post_id=post_id,
+        user_name=data.user_name,
+        created_at=now()
+    )
+    likes[like.id] = like
+
+    return {"message": "Post liked", "post_id": post_id}
+
+
+@app.get("/posts/{post_id}/likes")
+def count_likes(post_id: str):
+    if post_id not in posts:
+        raise HTTPException(404)
+
+    count = len([
+        like for like in likes.values()
+        if like.post_id == post_id
+    ])
+
+    return {
+        "post_id": post_id,
+        "like_count": count
+    }
 
 # NEW FEATURE NEEDED:
 # The product team wants to add a "likes" feature for posts
